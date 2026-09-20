@@ -9,7 +9,7 @@ services:
     autoDeploy: true
     envVars:
       - key: BOT_TOKEN
-        value: 8821510338:AAEO5qpjTlSQ-nIYeFJ1JE0XHSkafiGEmhE
+        sync: false
       - key: BOT_USERNAME
         value: Hisab_Kitab_1Bot
       - key: PYTHON_VERSION

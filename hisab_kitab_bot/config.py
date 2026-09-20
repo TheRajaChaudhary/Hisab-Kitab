@@ -1,7 +1,9 @@
-import os
+# Load .env file if present locally
+from dotenv import load_dotenv
+load_dotenv()
 
-# Telegram Bot Credentials (Supports environment variables for cloud deployment like Render)
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "8821510338:AAEO5qpjTlSQ-nIYeFJ1JE0XHSkafiGEmhE")
+# Telegram Bot Credentials (Loaded securely from Environment Variables on Render/server)
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 BOT_USERNAME = os.environ.get("BOT_USERNAME", "Hisab_Kitab_1Bot")
 
 # Deals Fetcher Branding & Affiliate Link

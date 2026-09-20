@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.local
+generated_pdfs/
+*.log
+.vscode/
+.idea/

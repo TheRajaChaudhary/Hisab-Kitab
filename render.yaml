@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: hisab-kitab-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m hisab_kitab_bot.bot
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: BOT_TOKEN
+        value: 8821510338:AAEO5qpjTlSQ-nIYeFJ1JE0XHSkafiGEmhE
+      - key: BOT_USERNAME
+        value: Hisab_Kitab_1Bot
+      - key: PYTHON_VERSION
+        value: 3.10.12

@@ -3208,9 +3208,7 @@ async def daily_night_summary_job(context: ContextTypes.DEFAULT_TYPE):
 # MAIN APPLICATION SETUP
 # ==========================================
 
-def main():
-    print(f"Starting Hisab-Kitab Bot (@{BOT_USERNAME})...")
-
+def build_application():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
 
     # Core Commands
@@ -3259,6 +3257,13 @@ def main():
     except Exception as e:
         print("Job queue schedule notice:", e)
 
+    return app
+
+
+def main():
+    import time
+    print(f"Starting Hisab-Kitab Bot (@{BOT_USERNAME})...")
+
     # Start Keep-Alive Web Server for Render / Cloud Hosting Port Binding
     try:
         try:
@@ -3270,9 +3275,30 @@ def main():
     except Exception as e:
         print("Keep-alive notice (non-fatal):", e)
 
-    print("Hisab-Kitab Bot is now LIVE & POLLING! Press Ctrl+C to stop.")
-    app.run_polling(poll_interval=1.0, timeout=30, drop_pending_updates=False)
+    while True:
+        try:
+            app = build_application()
+            print("Hisab-Kitab Bot is now LIVE & POLLING! Press Ctrl+C to stop.")
+            app.run_polling(
+                poll_interval=1.0,
+                timeout=20,
+                drop_pending_updates=True,
+                bootstrap_retries=10
+            )
+            break
+        except KeyboardInterrupt:
+            print("Bot process stopped by user.")
+            break
+        except Exception as e:
+            err_name = type(e).__name__
+            err_msg = str(e)
+            if "Conflict" in err_name or "Conflict" in err_msg:
+                print(f"⚠️ Telegram Conflict: Another bot instance is currently polling (e.g. mobile or previous session). Waiting 15s before reconnecting... ({err_msg})")
+            else:
+                print(f"⚠️ Polling encountered error ({err_name}): {err_msg}. Retrying in 10s...")
+            time.sleep(15)
 
 
 if __name__ == "__main__":
     main()
+
